@@ -34,9 +34,11 @@ public class PatternRecognitionController {
 		return null;
 	}
 
-	@RequestMapping(path="/lines", method= RequestMethod.GET, consumes = {"text/plain", "application/*"})
-	public ResponseEntity<List<Point2D>> GetCartesianLineSegments( @Valid @NonNull @PathVariable int numberLimit) {
-
+	@RequestMapping(path="/lines/{segments}", method= RequestMethod.GET, consumes = {"text/plain", "application/*"})
+	public ResponseEntity<List<Point2D>> GetCartesianLineSegments( @PathVariable Integer segments) {
+		
+		
+		
 		return null;
 	}
 }
