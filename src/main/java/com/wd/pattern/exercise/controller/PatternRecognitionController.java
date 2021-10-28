@@ -10,39 +10,45 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.wd.pattern.controller.datastore.DatasourceInterfaceImpl;
+
+import com.wd.pattern.domain.Point;
+import com.wd.pattern.exercise.SingletonDatastore;
+import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
 
 @RestController
-@RequestMapping("cartesian-plane")
+@RequestMapping("/cartesian-plane")
 public class PatternRecognitionController {
 
 	@Autowired
-	DatasourceInterfaceImpl datasourceInterfaceImpl; 
+	PatternRecognitionServiceImpl patternRecognitionServiceImpl;
+
 	
-	@RequestMapping(path="/point", method= RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @NonNull @PathVariable Point2D point) {
-		
-		datasourceInterfaceImpl.setCartesianDatasource(point);
-		
-		return ResponseEntity.ok("success" + point.getX());	
+	
+	@RequestMapping(path="/point", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, 
+								 																			produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @NonNull @RequestParam Point point) {
+		patternRecognitionServiceImpl.CreatePoint(point);
+		return ResponseEntity.ok("success" + point.getX() + point.getY());
 	}
 
+	
 	@RequestMapping(path="/space-points", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, List<Point2D>>> GetCartesianSpacePoints() {
-
 		
-		return null;
+		return ResponseEntity.ok(SingletonDatastore.getInstance().getCartesianDatastore()); 
 	}
 
 	@RequestMapping(path="/space-points", method= RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, List<Point2D>>> RemoveCartesianSpacePoints() {
+	public ResponseEntity<String> RemoveCartesianSpacePoints() {
 
-		
-		return null;
+		return ResponseEntity.ok("Space Points Successfuly Removed");
 	}
 
-	@RequestMapping(path="/lines/{segments}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(path="/lines-segments/{number}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Point2D>> GetCartesianLineSegments( @PathVariable Integer segments) {
 
 		return null;

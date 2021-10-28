@@ -7,23 +7,29 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SingletonDatastore {
 
 	static ConcurrentHashMap<String, List<Point2D>> CartesianSpacePoints = new ConcurrentHashMap<String, List<Point2D>>();
-	private SingletonDatastore singletonDatastore;
+	private static SingletonDatastore singletonDatastore;
+	static int lineSegmentCounter = 1;
 
 	private SingletonDatastore() {
 
 	}
 
-	public SingletonDatastore SingletonDatastore() {
-		if(CartesianSpacePoints == null)
+	public static SingletonDatastore getInstance() {
+		if(singletonDatastore == null)
 			synchronized(SingletonDatastore.class) {
-				if(CartesianSpacePoints == null)
+				if(singletonDatastore == null)
 					singletonDatastore = new SingletonDatastore();
 			}
 		return singletonDatastore;
 	}
 
-	public ConcurrentHashMap<String, List<Point2D>> CartesianDatastore() {
+	public ConcurrentHashMap<String, List<Point2D>> getCartesianDatastore() {
 
 		return CartesianSpacePoints;
+	}
+
+	public int CartesianLineSegmentCounter() {
+
+		return ++lineSegmentCounter;
 	}
 }

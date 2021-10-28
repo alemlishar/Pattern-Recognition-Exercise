@@ -9,6 +9,8 @@ public class PatternRecognitionServiceTest {
 	
 	@Test
 	public void CreatePointShouldReturnSucessMessage() {
+		Point2D point = null;
+		point.setLocation(0.1, 0.2);
 		
 	}
 

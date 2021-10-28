@@ -3,11 +3,9 @@ package com.wd.pattern.controller.datastore;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
+
 public interface DatasourceInterface {
 	
 	public ObjectMapper getCartesianDatasource();
