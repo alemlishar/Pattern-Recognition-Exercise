@@ -3,14 +3,17 @@ package com.wd.pattern.exercise.service;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-public class PatternRecognitionInterfaceImpl implements PatterRecognitionInterface{
+import org.springframework.stereotype.Service;
+
+@Service
+public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 
 	@Override
 	public void CreatePoint() {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public boolean IsValidLineSegment() {
 		// TODO Auto-generated method stub
@@ -24,15 +27,15 @@ public class PatternRecognitionInterfaceImpl implements PatterRecognitionInterfa
 	}
 
 	@Override
-	public List<Point2D> GetLinesFromSpace() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean pointExistInLineSegment() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Point2D> GetAllLineSegment() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
