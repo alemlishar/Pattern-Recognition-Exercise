@@ -13,7 +13,6 @@ public class SingletonDatastore {
 	private SingletonDatastore() {
 
 	}
-
 	public static SingletonDatastore getInstance() {
 		if(singletonDatastore == null)
 			synchronized(SingletonDatastore.class) {
