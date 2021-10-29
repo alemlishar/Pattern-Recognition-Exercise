@@ -1,25 +1,18 @@
 package com.wd.pattern.exercise;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.validation.Valid;
-
 import com.wd.pattern.domain.Point;
-import com.wd.pattern.domain.Point2DPlane;
 
 public class SingletonDatastore {
 
-	static ConcurrentHashMap<String, List<Point>> CartesianSpacePoints = new ConcurrentHashMap<String, List<Point>>();
-	private static SingletonDatastore singletonDatastore = new SingletonDatastore();
+	static ConcurrentHashMap<Integer, ArrayList<Point>> CartesianSpacePoints = new ConcurrentHashMap<Integer, ArrayList<Point>>();
+	private static SingletonDatastore singletonDatastore;
 	static int lineSegmentCounter = 1;
 
 	private SingletonDatastore() {
 
 	}
-
 	public static SingletonDatastore getInstance() {
 		if(singletonDatastore == null)
 			synchronized(SingletonDatastore.class) {
@@ -29,19 +22,28 @@ public class SingletonDatastore {
 		return singletonDatastore;
 	}
 
-	public ConcurrentHashMap<String, List<Point>> getCartesianDatastore() {
+	public static ConcurrentHashMap<Integer, ArrayList<Point>> getCartesianDatastore() {
 
 		return CartesianSpacePoints;
 	}
 
-	public int CartesianLineSegmentCounter() {
+	public static int CartesianLineSegmentCounter() {
 
 		return ++lineSegmentCounter;
 	}
 
-	public void StorePointToDataStore(@Valid Point point) {
+	public static int GetCartesianLineSegmentCounter() {
+
+		return lineSegmentCounter;
+	}
+
+	public static void StorePointToDataStore(Point point) {
 		ArrayList<Point> LinePoints = new ArrayList<Point>();
 		LinePoints.add(point);
-		singletonDatastore.getInstance().getCartesianDatastore().put("Line"+CartesianLineSegmentCounter(), LinePoints);
+		SingletonDatastore.getCartesianDatastore().put(CartesianLineSegmentCounter(), LinePoints);
+	}
+	
+	public static void storeLineToDataStore(ArrayList<Point> linesPoint) {
+		SingletonDatastore.getCartesianDatastore().put(SingletonDatastore.GetCartesianLineSegmentCounter() + 1, linesPoint);
 	}
 }

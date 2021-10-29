@@ -1,5 +1,4 @@
 package com.wd.pattern.exercise.controller;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,22 +18,22 @@ import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
 
 
 @RestController
-@RequestMapping("/cartesian-plane")
 public class PatternRecognitionController {
 
 	@Autowired
 	private PatternRecognitionServiceImpl patternRecognitionServiceImpl;
-
 
 	/** 
 	 * @param point coordinate x , y
 	 * @return line points which a new point resides
 	 * 
 	 */
-	@PostMapping("/store/space-point")
+	@PostMapping("/point")
 	public ResponseEntity<String> AddCartesianSpacePoint( Point point) {
-		SingletonDatastore.getInstance().StorePointToDataStore(point);
-		return ResponseEntity.ok("success" + SingletonDatastore.getInstance().getCartesianDatastore().size());
+		//patternRecognitionServiceImpl.
+		int linesNumber = patternRecognitionServiceImpl.CreatePoint(point).size();
+ 		//SingletonDatastore.getInstance().StorePointToDataStore(point);
+		return ResponseEntity.ok("success" + linesNumber);
 	}
 
 	/**
@@ -42,15 +41,9 @@ public class PatternRecognitionController {
 	 * @return 	return all datastore line segment
 	 * 
 	 */
-	@GetMapping("/read/space-point")
+	@GetMapping("/space")
 	public ResponseEntity<ConcurrentHashMap<String, List<Point>>> GetCartesianSpacePoints() {
-		ConcurrentHashMap<String,List<Point>> cartesianSpace = new ConcurrentHashMap<String,List<Point>>();
-		ArrayList PointList = new ArrayList<Point>();
-		cartesianSpace.put("Empty Space, nolding noPoints", PointList);
-		System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().size());
-		
-		return  patternRecognitionServiceImpl.getAllSpacePoints().size() > 0 ?
-				ResponseEntity.ok(SingletonDatastore.getInstance().getCartesianDatastore()) : ResponseEntity.ok(cartesianSpace);
+		return ResponseEntity.ok(patternRecognitionServiceImpl.getAllSpacePoints());
 	}
 
 	/**
@@ -58,19 +51,23 @@ public class PatternRecognitionController {
 	 * @apiNote clear points in space, 
 	 * @return success of removal
 	 */
-	@DeleteMapping("/remove/space-point")
+	@DeleteMapping("/space")
 	public ResponseEntity<String> RemoveCartesianSpacePoints() {
 
-		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : ResponseEntity.ok("Successfully deleted");
+		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : 
+			ResponseEntity.ok("Space point not deleted");
 	}
 
+	
 	/**  
-	 * @param number of Line which holds maximum n points
+	 * @param number of Line which holds at least n points
 	 * @return list of line segments satisfy the condition
 	 */
-	@RequestMapping(path="read/lines/{n}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Point2D>> GetCartesianLineSegments( @PathVariable Integer n) {
+	@RequestMapping(path="/lines/{n}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ConcurrentHashMap<String, ArrayList<Point>>> GetCartesianLineSegments( @PathVariable Integer n) {
 
-		return null;
+		ConcurrentHashMap<String, ArrayList<Point>> lineSegments = new ConcurrentHashMap<String, ArrayList<Point>>() ;
+		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(n);
+		return ResponseEntity.ok(lineSegments);
 	}
 }
