@@ -10,11 +10,6 @@ import com.wd.pattern.exercise.SingletonDatastore;
 @Service
 public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 
-	/**
-	 * @apiNote	Create New point in Data storage
-	 * @param Point with cordinates x and y
-	 * @return datastorage as key value LineSegmentIdentifier, List of Points  
-	 */
 
 	/**
 	 * @apiNote	Delete all Points in a plane Space
@@ -38,25 +33,16 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 */
 	@Override
 	public ConcurrentHashMap<String, ArrayList<Point>> getLineSegmentsHavingAtleast(int limit) {
-		
+
 		ConcurrentHashMap<String, ArrayList<Point>> selectedLineSegments = new ConcurrentHashMap<String, ArrayList<Point>>() ;
 		for(int i = 1; i<SingletonDatastore.GetCartesianLineSegmentCounter(); i++) {
-			
+
 			if(SingletonDatastore.getCartesianDatastore().get(i).size() > limit)
 				selectedLineSegments.put("Line Segment" + selectedLineSegments.size()+1,SingletonDatastore.getCartesianDatastore().get(i));
 		}
 		return selectedLineSegments;
 	}
-	
-	/**	boolean value = VerifyPointsInline(point, SingletonDatastore.getCartesianDatastore().get(i).get(0));
-	if(value) {
-		lineSegment.add(point);
-		SingletonDatastore.getCartesianDatastore().get(i).clear();
-		SingletonDatastore.storeLineToDataStore(lineSegment);
-		break; 
-	} */
-	
-	
+
 	/**
 	 * @apiNote	Create New point in Data storage
 	 * @param Point with cordinates x and y
@@ -73,7 +59,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @param New Point with cordinates x and y
 	 * @return success response True or False
 	 * 
-	 * @
+	 * @ to be improved
 	 */
 	@Override
 	public boolean AddpointAsLineSegment(Point point) {
@@ -111,6 +97,9 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return false;
 	}
 
+	/**
+	 * to be improved
+	 */
 	@Override
 	public ConcurrentHashMap<Integer, ArrayList<Point>> CreatePoint(Point point) {
 
@@ -122,6 +111,10 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return dataStore;
 	}
 
+
+	/**
+	 * to be improved
+	 */
 	@Override
 	public ConcurrentHashMap<String, List<Point>> getAllSpacePoints() {
 		// TODO Auto-generated method stub
