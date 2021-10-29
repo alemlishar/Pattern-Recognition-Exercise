@@ -58,7 +58,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
 	 * @param New Point with cordinates x and y
 	 * @return success response True or False
-	 * 
+	 * @complexity O(K) < O(n)    k constants, n number of points
 	 * @ to be improved
 	 */
 	@Override
