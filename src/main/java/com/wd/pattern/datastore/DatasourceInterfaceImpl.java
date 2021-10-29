@@ -1,4 +1,4 @@
-package com.wd.pattern.controller.datastore;
+package com.wd.pattern.datastore;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -30,13 +30,11 @@ public class DatasourceInterfaceImpl implements DatasourceInterface{
 		} catch (JsonProcessingException e) {
 						e.printStackTrace();
 		}
-
 		return datasourceMapper;
 	}
 
 	@Override
 	public ArrayList<Point2D> getPointsFromPlaneSpace(Point2D point) {
-		
 		
 		ArrayList<Point2D> points;
 		return null;

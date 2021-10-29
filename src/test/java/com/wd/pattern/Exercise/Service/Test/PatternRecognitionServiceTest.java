@@ -8,7 +8,7 @@ public class PatternRecognitionServiceTest {
 
 	
 	@Test
-	public void CreatePointShouldReturnSucessMessage() {
+	public void shouldReturnCreatePointShouldReturnSucessMessage() {
 		Point2D point = null;
 		point.setLocation(0.1, 0.2);
 		
@@ -22,10 +22,11 @@ public class PatternRecognitionServiceTest {
 	@Test
 	public void IsValidLineSegmentShouldReturnError() {
 		
+	
 	}
 
 	@Test
-	public void GetLinesFromSpaceShouldReturnError(){ 
+	public void GetAllSpaceShouldReturnError(){ 
 		
 	}
 

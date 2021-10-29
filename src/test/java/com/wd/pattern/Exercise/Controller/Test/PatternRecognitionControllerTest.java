@@ -11,17 +11,18 @@ public class PatternRecognitionControllerTest {
 	}
 	
 	@Test
-    public void emptyShouldReturn() {
+    public void EmptyLineSegmentNumberShouldReturnInternalServerError() {
 		
 	}
 
     @Test
-    public void emptyLineSegmentNumberMustReturnInvalidArgumentException() {
+    public void deleteEmptySpacePointsShouldReturnError() {
     	
+    
     }
     
     @Test
-    public void emptyLineSegmentNumberMustReturn() {
+    public void createPointShouldReturnLineSegments() {
     	
     }
 }

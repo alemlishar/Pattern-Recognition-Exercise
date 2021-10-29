@@ -1,5 +1,9 @@
 package com.wd.pattern.exercise;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +12,19 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.wd.pattern.domain.Point;
+import com.wd.pattern.domain.Point2DPlane;
 
 @SpringBootApplication
 public class ExerciseApplication {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(ExerciseApplication.class, args);
+		
+		System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line1"));
+		System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line2"));
+		
 	}
 	
 	@Bean
@@ -24,4 +35,20 @@ public class ExerciseApplication {
 		return objectMapper;
 	}
 
+	
+	@Bean
+	@Primary
+	public ConcurrentHashMap<String, List<Point>> initializeDataStore() {
+	
+		ArrayList<Point> points = new ArrayList<Point>();
+		
+		points.add(new Point((double)4,(double)5));
+		points.add(new Point((double)5,(double)6));
+		
+		SingletonDatastore.getInstance().getCartesianDatastore().put("Line1", points);
+		SingletonDatastore.getInstance().getCartesianDatastore().put("Line2", points);
+
+		
+		return  SingletonDatastore.getInstance().getCartesianDatastore();
+	}
 }

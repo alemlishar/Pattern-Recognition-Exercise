@@ -1,12 +1,14 @@
 package com.wd.pattern.exercise.service;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
 import com.wd.pattern.domain.Point;
+import com.wd.pattern.domain.Point2DPlane;
 import com.wd.pattern.exercise.SingletonDatastore;
 
 @Service
@@ -17,11 +19,6 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @param Point with cordinates x and y
 	 * @return datastorage as key value LineSegmentIdentifier, List of Points  
 	 */
-	@Override
-	public ConcurrentHashMap<String, List<Point2D>> CreatePoint(Point2D point) {
-		ConcurrentHashMap<String, List<Point2D>> dataStore = SingletonDatastore.getInstance().getCartesianDatastore();
-		dataStore.put("lineSegment" + SingletonDatastore.getInstance().CartesianLineSegmentCounter() + 1,List.of(point));
-		return dataStore;}
 
 	/**
 	 * @apiNote	Delete all Points in a plane Space
@@ -81,4 +78,20 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return false;
 	}
 
+	@Override
+	public ConcurrentHashMap<String, List<Point>> CreatePoint(Point point) {
+
+		ArrayList<Point> p = new ArrayList<Point>();
+		p.add(point);
+		ConcurrentHashMap<String, List<Point>> dataStore = SingletonDatastore.getInstance().getCartesianDatastore();
+		dataStore.put("lineSegment" + SingletonDatastore.getInstance().CartesianLineSegmentCounter() + 1,p);
+		return dataStore;
+	}
+
+	@Override
+	public ConcurrentHashMap<String, List<Point>> getAllSpacePoints() {
+		// TODO Auto-generated method stub
+		ConcurrentHashMap<String, List<Point>> dataStore = SingletonDatastore.getInstance().getCartesianDatastore();
+		return dataStore;
+	}
 }

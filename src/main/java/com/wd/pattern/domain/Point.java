@@ -1,28 +1,46 @@
 package com.wd.pattern.domain;
 
-import java.awt.geom.Point2D;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-public final class Point extends Point2D{
+public final class Point {
 
 	
-	@Override
-	public double getX() {
-		// TODO Auto-generated method stub
-		return 0;
+
+	@NotNull
+	private Double x;
+
+	@NotNull
+	private Double y;
+
+	
+	public Point() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public double getY() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setLocation(double x, double y) {
-		// TODO Auto-generated method stub
-
+		
+	public Point(@NotNull Double x, @NotNull Double y) {
+		super();
+		this.x = x;
+		this.y = y;
 	}
 	
-	
+	public Double getX() {
+		return x;
+	}
+
+	public void setX(Double x) {
+		this.x = x;
+	}
+
+	public Double getY() {
+		return y;
+	}
+
+	public void setY(Double y) {
+		this.y = y;
+	}
 
 }
