@@ -66,33 +66,34 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		// TODO Auto-generated method stub
 		ArrayList<Point> lineSegment = new ArrayList<Point>();
 		SingletonDatastore.getInstance();
-		System.out.println("size of datastore" + SingletonDatastore.GetCartesianLineSegmentCounter() +
-						"point" + point.getX() + point.getY());
-		/*if(SingletonDatastore.GetCartesianLineSegmentCounter() >= 0)
+		System.out.println("size of datastore" + SingletonDatastore.GetCartesianLineSegmentCounter() + 
+				"point" + point.getX() + point.getY());
+		if(SingletonDatastore.GetCartesianLineSegmentCounter() >= 0)
 			for(int i = 0; i < SingletonDatastore.GetCartesianLineSegmentCounter(); i++) {
-				System.out.println("size of datastore" + SingletonDatastore.GetCartesianLineSegmentCounter() +
-						"line points" + SingletonDatastore.getCartesianDatastore().get(i).size());
+				System.out.println("size of datastore" + SingletonDatastore.GetCartesianLineSegmentCounter() + 
+						"line points" + SingletonDatastore.getCartesianDatastore().get(i).size() + "---");
 				//get any point from the line segment, atleast one exist get(0)....since it inserted in datastore space
 				boolean value = VerifyPointsInline(point, SingletonDatastore.getCartesianDatastore().get(i).get(0));
 				if(value) {
 					lineSegment.add(point);
 					SingletonDatastore.getCartesianDatastore().get(i).add(point);
-					SingletonDatastore.SetCartesianLineSegmentCounter();
+					SingletonDatastore.SetCartesianLineSegmentCounter(SingletonDatastore.getCartesianDatastore());
 					break; 
 				}
-			}*/
-		//if(lineSegment.size() == 0) {
+			}
+		if(lineSegment.size() == 0) {
 			lineSegment.add(point);
 			SingletonDatastore.storeLineToDataStore(lineSegment);
-		//}
+		}
 		return SingletonDatastore.getCartesianDatastore().size() > 0;
 	}
 
 
 	private  boolean VerifyPointsInline(Point p1, Point p2) {
-		return	Double.compare(Double.parseDouble(p2.getY()) * 1/Double.parseDouble(p1.getY()),
-								Double.parseDouble(p2.getY()) * 1/ Double.parseDouble(p1.getX())) == 0?
-								true:false;
+
+		return	Double.compare(p2.getY()   * 1/p1.getY(),
+				p2.getX()  * 1/ p1.getX()) == 0?
+						true:false;
 	}
 	/**
 	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
@@ -137,5 +138,13 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		else
 			cartesianSpace.put("Empty Space, nolding noPoints", PointList);
 		return cartesianSpace;
+	}
+
+	@Override
+	public boolean Validation(Object obj) {
+		// TODO Auto-generated method stub
+
+
+		return false;
 	}
 }

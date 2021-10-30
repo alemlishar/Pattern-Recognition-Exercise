@@ -3,42 +3,44 @@ package com.wd.pattern.domain;
 import javax.validation.constraints.NotNull;
 
 public class Point {
-
+	
 	@NotNull
-	private String x;
+	private double x;
 	@NotNull
-	private String y;
+	private double Y;
 
-
+	
+	
 	public Point() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Point(@NotNull String x, @NotNull String y) {
+	
+	public Point(@NotNull double x, @NotNull double y) {
 		super();
 		this.x = x;
-		this.y = y;
+		Y = y;
 	}
 
-	public String getX() {
+
+	public double getX() {
 		return x;
 	}
 
-
-	public void setX(String x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
+	public double getY() {
+		return Y;
+	}
 
-	public String getY() {
-		return y;
+	public void setY(double y) {
+		Y = y;
 	}
 
 
-	public void setY(String y) {
-		this.y = y;
-	}
-
+	
 }
 

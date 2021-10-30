@@ -28,43 +28,60 @@ public class PatternRecognitionControllerTest {
 		//	ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
 		//	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-		/*Point p = new Point(4,5);
+		Point p = new Point(4, 5);
 		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:7777/point", p , String.class);
 		String body = response.getBody();
-		System.out.println(body);		 
-		 */
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
 	}
 
 	@Test
 	public void StoreNullPointShoulReturnError() {
-		//ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
-		//assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		
 		Point p = null;
 		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:7777/point", p , String.class);
 		String body = response.getBody();
 		System.out.println(body);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
-	
+
 	@Test
-	public void EmptyLineSegmentNumberShouldReturnError() {	
-		//	ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
-		//	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	public void GetEmptySpacePointShouldReturnError() {	
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:7777/point", String.class);
+		String body = response.getBody();
+		System.out.println(body);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
-	
+
+	@Test
+	public void GetNonEmptySpacePointShouldReturnPostiveNumber() {	
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:7777/space", String.class);
+		String body = response.getBody();
+		System.out.println(body);
+	}
+
 	@Test
 	public void deleteEmptySpacePointShouldReturnError() {
-		//ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
-		//assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		restTemplate.delete("http://localhost:7777/point");
+
+	}
+
+	@Test
+	public void ReadLinesNumberOfPointsGreater() {
+
+	}
+
+	@Test
+	public void ReadLineNumberNumberOfPoints() {
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:7777/space", String.class);
+		String body = response.getBody();
+		System.out.println(body);
+	
 	}
 	
 	@Test
-	public void ReadLinesNumberOfPointsGreater() {
-		//		ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
-		//	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	public void ConcurencyCheckStorePointAndRetrive() {
+		//assertThat().isEqualTo(HttpStatus.OK);
 	}
-	@Test
-	public void ReadLineNumberNumberOfPoints() {
-		//ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
-		//assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-	}
+	
 }
