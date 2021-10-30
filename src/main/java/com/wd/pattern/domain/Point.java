@@ -2,13 +2,12 @@ package com.wd.pattern.domain;
 
 import javax.validation.constraints.NotNull;
 
-public final class Point {
+public class Point {
 
 	@NotNull
-	private Double x;
-
+	private String x;
 	@NotNull
-	private Double y;
+	private String y;
 
 
 	public Point() {
@@ -16,25 +15,28 @@ public final class Point {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Point(@NotNull Double x, @NotNull Double y) {
+	public Point(@NotNull String x, @NotNull String y) {
 		super();
 		this.x = x;
 		this.y = y;
 	}
 
-	public Double getX() {
+	public String getX() {
 		return x;
 	}
 
-	public void setX(Double x) {
+
+	public void setX(String x) {
 		this.x = x;
 	}
 
-	public Double getY() {
+
+	public String getY() {
 		return y;
 	}
 
-	public void setY(Double y) {
+
+	public void setY(String y) {
 		this.y = y;
 	}
 

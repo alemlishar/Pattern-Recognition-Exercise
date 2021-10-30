@@ -35,7 +35,7 @@ public class ExerciseApplication {
 		return objectMapper;
 	}
 
-	
+	/*
 	@Bean
 	@Primary
 	public ConcurrentHashMap<Integer, ArrayList<Point>> initializeDataStore() {
@@ -50,5 +50,5 @@ public class ExerciseApplication {
 
 		
 		return  SingletonDatastore.getInstance().getCartesianDatastore();
-	}
+	}*/
 }

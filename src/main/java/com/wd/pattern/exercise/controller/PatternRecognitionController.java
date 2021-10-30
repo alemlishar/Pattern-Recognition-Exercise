@@ -29,13 +29,13 @@ public class PatternRecognitionController {
 	 * 
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<String> AddCartesianSpacePoint( Point point) {
+	public ResponseEntity<String> AddCartesianSpacePoint(Point point) {
 		//patternRecognitionServiceImpl.
-		int linesNumber = patternRecognitionServiceImpl.CreatePoint(point).size();
- 		//SingletonDatastore.getInstance().StorePointToDataStore(point);
-		return ResponseEntity.ok("success" + linesNumber);
+		boolean val = patternRecognitionServiceImpl.AddpointAsLineSegment(point);
+		System.out.println("x" + point.getX() + "y" + point.getY());
+		//SingletonDatastore.getInstance().StorePointToDataStore(point);
+		return ResponseEntity.ok("success" + SingletonDatastore.GetCartesianLineSegmentCounter());
 	}
-
 	/**
 	 * @apiNote get all points in every of the lines
 	 * @return 	return all datastore line segment
@@ -45,7 +45,6 @@ public class PatternRecognitionController {
 	public ResponseEntity<ConcurrentHashMap<String, List<Point>>> GetCartesianSpacePoints() {
 		return ResponseEntity.ok(patternRecognitionServiceImpl.getAllSpacePoints());
 	}
-
 	/**
 	 * 
 	 * @apiNote clear points in space, 
