@@ -43,8 +43,8 @@ public class ExerciseApplication {
 		SingletonDatastore.getInstance();
 		ArrayList<Point> points = new ArrayList<Point>();
 		
-		points.add(new Point((double)4,(double)5));
-		points.add(new Point((double)5,(double)6));
+	//	points.add(new Point((double)4,(double)5));
+	//	points.add(new Point((double)5,(double)6));
 		
 		//SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);
 		//SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);

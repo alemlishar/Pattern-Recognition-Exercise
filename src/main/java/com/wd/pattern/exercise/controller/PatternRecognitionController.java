@@ -8,8 +8,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wd.pattern.domain.Point;
 import com.wd.pattern.exercise.SingletonDatastor1;
 import com.wd.pattern.exercise.SingletonDatastore;
+import com.wd.pattern.exercise.exception.HttpMessageNotReadableException;
+import com.wd.pattern.exercise.exception.MethodArgumentNotValidExceptionHandler;
 import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
 
 
@@ -36,14 +40,17 @@ public class PatternRecognitionController {
 	 * @apiNote add points in to Cartesian plane
 	 * @param point coordinate  x , y(type double)
 	 * @return Success message
+	 * @throws com.wd.pattern.exercise.exception.HttpMessageNotReadableException 
 	 * 
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) {
+	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) throws  HttpMessageNotReadableException
+																							 {
 		/**	
 		 *  patternRecognitionServiceImpl.Validation(Point); return true or false  
 		 */		
-		SingletonDatastor1.getInstance();		
+		
+		SingletonDatastor1.getInstance();
 		int val = patternRecognitionServiceImpl.CreatePoint(point);
 		return	 ResponseEntity.ok("success" + val);
 	}

@@ -28,7 +28,7 @@ public class PatternRecognitionControllerTest {
 		//	ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
 		//	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-		Point p = new Point(4, 5);
+		Point p = new Point("4", "5");
 		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:7777/point", p , String.class);
 		String body = response.getBody();
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

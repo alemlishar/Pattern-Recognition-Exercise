@@ -111,8 +111,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 
 		logger.info("the first two point by any means can make a line, no need to make calculation, simply insert"  );
 		
-		if(SingletonDatastor1.getCartesianDatastore().size() == 1 && 
-				SingletonDatastor1.getCartesianDatastore().get(1).size() <2 ) {
+		if(SingletonDatastor1.getCartesianDatastore().size() == 1 && SingletonDatastor1.getCartesianDatastore().get(1).size() <2 ) {
 			List<String> p1 = new ArrayList<String>();
 			p1.add(newPoint);
 			points.add(p1);
@@ -127,21 +126,23 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return SingletonDatastor1.getCartesianDatastore().size();
 	}
 
-	private boolean VerifyPointInline(Point p1, Point p2, List<String> lineSegments) {
+	/*private boolean VerifyPointInline(Point p1, Point p2, List<String> lineSegments) {
+		
 		logger.info("----string value to be added--" + p1);
 		logger.info("total line segments" + SingletonDatastor1.getCartesianDatastore().size() + "points in space " );
 
 		for (int i=1; i<SingletonDatastor1.getCartesianDatastore().size();i++) {
+			
 			System.out.println("points in line " + SingletonDatastor1.getCartesianDatastore().get(i).get(0));
+		
 		}
 		/** use either of this formula
 		 *  ax + by = c
 		 *  ax - by = c
-		 */
-
+		 
 		return	Double.compare((p2.getY() - p1.getY())/(p2.getX() - p1.getX()),
 				(p1.getY() - p2.getY()) / (p1.getX() - p2.getX())) == 0? true:false;
-	}
+	}*/
 
 	/**
 	 * to be improved
