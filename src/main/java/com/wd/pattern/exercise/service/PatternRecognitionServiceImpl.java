@@ -12,8 +12,6 @@ import com.wd.pattern.exercise.SingletonDatastor1;
 @Service
 public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 
-
-
 	final static Logger logger = LoggerFactory.getLogger(PatternRecognitionServiceImpl.class);
 
 	/**
@@ -68,48 +66,27 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	@Override
 	public boolean AddpointAsLineSegment(Point point) {
 		// TODO Auto-generated method stub
-		/*
-		int linesCounter;
-		ArrayList<Point> lineSegment = new ArrayList<Point>();
-		SingletonDatastor1.getInstance();
-		SingletonDatastor1.SetCartesianLineSegmentCounter(SingletonDatastor1.GetCartesianLineSegmentCounter());
-		System.out.println("size of datastore" + SingletonDatastor1.getCartesianDatastore().size() + "point" + point.getX() + point.getY());
-
-		if(SingletonDatastor1.GetCartesianLineSegmentCounter()==0)  {
-			lineSegment.add(point);
-			SingletonDatastor1.storeLineToDataStore(lineSegment);
-			SingletonDatastor1.SetCartesianLineSegmentCounter(SingletonDatastor1.GetCartesianLineSegmentCounter()+1);
-			System.out.println("first elment of datastore" + SingletonDatastor1.getCartesianDatastore().get(1).get(0));
-			return true;
-		}
-		else if(SingletonDatastor1.GetCartesianLineSegmentCounter() > 0)
-			for(int i = 1; i <=SingletonDatastor1.getCartesianDatastore().size(); i++) {
-				//get any point from the line segment, atleast one exist get(0)....since it inserted in datastore space	
-				lineSegment.add(point);
-				SingletonDatastor1.storeLineToDataStore(lineSegment);
-				SingletonDatastor1.SetCartesianLineSegmentCounter(SingletonDatastor1.GetCartesianLineSegmentCounter()+1);
-				System.out.println("number of line points in a space" + SingletonDatastor1.getCartesianDatastore().toString());
-
-				boolean value = VerifyPointsInline(point, SingletonDatastor1.getCartesianDatastore().get(i).get(0));
-				if(value) {
-					lineSegment = SingletonDatastor1.getCartesianDatastore().get(i);
-					SingletonDatastor1.getCartesianDatastore().get(i).clear();
-					lineSegment.add(point);
-					SingletonDatastor1.getCartesianDatastore().put(i, lineSegment);
-					SingletonDatastor1.SetCartesianLineSegmentCounter(SingletonDatastor1.getCartesianDatastore().size());
-					break;
-				}
-			}*/
 
 		CreatePoint(point);
-
 
 		return SingletonDatastor1.getCartesianDatastore().size() > 0;
 	}
 
-	private  boolean VerifyPointsInline(Point p1, Point p2) {
-		return	Double.compare((p2.getY() - p1.getY())/(p2.getX() - p1.getX()),
-				(p1.getY() - p2.getY()) / (p1.getX() - p2.getX())) == 0? true:false;
+	@Override
+	public int CheckpointInExistingLine(Point point) {
+		if(SingletonDatastor1.getCartesianDatastore().size()==0)  
+		{
+			logger.info("--the first point---" );
+			CreatePoint(point);
+			return SingletonDatastor1.getCartesianDatastore().size() ;
+		}
+		for(int i = 0; i <=SingletonDatastor1.getCartesianDatastore().size(); i++) 
+		{
+			int pointsValue = SingletonDatastor1.getCartesianDatastore().get(i).size();
+			logger.info("--the value index---" + SingletonDatastor1.getCartesianDatastore().get(i).get(pointsValue-1));
+			CreatePoint(point);
+		}
+		return SingletonDatastor1.getCartesianDatastore().size() ;
 	}
 	/**
 	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
@@ -127,19 +104,45 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 */
 	@Override
 	public int CreatePoint(Point point) {
-		String newPoint = point.getX() +","+ point.getY(); 
 		
+		String newPoint = point.getX() +","+ point.getY(); 
 		SingletonDatastor1.getInstance();
 		ArrayList<List<String>> points = new ArrayList<List<String>>();
+
+		logger.info("the first two point by any means can make a line, no need to make calculation, simply insert"  );
 		
-		List<String> p1 = new ArrayList<String>();
-		p1.add(newPoint);
-		points.add(p1);
+		if(SingletonDatastor1.getCartesianDatastore().size() == 1 && 
+				SingletonDatastor1.getCartesianDatastore().get(1).size() <2 ) {
+			List<String> p1 = new ArrayList<String>();
+			p1.add(newPoint);
+			points.add(p1);
+			SingletonDatastor1.storeNewLineToDataStore(p1);
+		}
+		/**
+		 * calculate if true, insert on the index 
+		 * else create new node of a line
+		 * boolean slope = VerifyPointsInline(point);  if true  
+		 */
 		
-		SingletonDatastor1.storeNewLineToDataStore(p1);
-		logger.info("----string value to be added--" + newPoint);
 		return SingletonDatastor1.getCartesianDatastore().size();
 	}
+
+	private boolean VerifyPointInline(Point p1, Point p2, List<String> lineSegments) {
+		logger.info("----string value to be added--" + p1);
+		logger.info("total line segments" + SingletonDatastor1.getCartesianDatastore().size() + "points in space " );
+
+		for (int i=1; i<SingletonDatastor1.getCartesianDatastore().size();i++) {
+			System.out.println("points in line " + SingletonDatastor1.getCartesianDatastore().get(i).get(0));
+		}
+		/** use either of this formula
+		 *  ax + by = c
+		 *  ax - by = c
+		 */
+
+		return	Double.compare((p2.getY() - p1.getY())/(p2.getX() - p1.getX()),
+				(p1.getY() - p2.getY()) / (p1.getX() - p2.getX())) == 0? true:false;
+	}
+
 	/**
 	 * to be improved
 	 */
@@ -147,12 +150,6 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	public ArrayList<List<String>> getAllSpacePoints() {
 		// TODO Auto-generated method stub
 		ArrayList<List<String>> cartesianSpace = new ArrayList<List<String>>();
-		//SingletonDatastor1.getInstance();
-		
-		//if(SingletonDatastor1.getCartesianDatastore().size()>=0)
-		/*for (int i=0; i< SingletonDatastor1.GetCartesianLineSegmentCounter(); i=i+1) {
-				cartesianSpace.add( SingletonDatastor1.getCartesianDatastore().get(i));
-			}*/
 
 		return SingletonDatastor1.getInstance().getCartesianDatastore();
 	}
@@ -160,7 +157,6 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	@Override
 	public boolean Validation(Object obj) {
 		// TODO Auto-generated method stub
-
 
 		return false;
 	}

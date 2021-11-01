@@ -43,10 +43,8 @@ public class PatternRecognitionController {
 		/**	
 		 *  patternRecognitionServiceImpl.Validation(Point); return true or false  
 		 */		
-		//System.out.println("x" + point.getX() + "y" + point.getY());
 		SingletonDatastor1.getInstance();		
 		int val = patternRecognitionServiceImpl.CreatePoint(point);
-		logger.info("line segment number" + SingletonDatastor1.getCartesianDatastore().size());
 		return	 ResponseEntity.ok("success" + val);
 	}
 	/**
