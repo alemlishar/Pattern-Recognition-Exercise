@@ -5,13 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.util.WebUtils;
@@ -40,12 +37,12 @@ public class GlobalExceptionHandler {
 			ContentNotFoundException unfe = (ContentNotFoundException) ex;
 
 			return handleUserNotFoundException(unfe, headers, status, request);
-		} else if (ex instanceof InvalidArgument) {
+		} /*else if (ex instanceof InvalidArgument) {
 			HttpStatus status = HttpStatus.BAD_REQUEST;
 			InvalidArgument cnae = (InvalidArgument) ex;
 
 			return handleContentNotAllowedException(cnae, headers, status, request);
-		} else if (ex instanceof ContentCreationException) {
+		} */else if (ex instanceof ContentCreationException) {
 			HttpStatus status = HttpStatus.OK;
 			ContentCreationException cnae = (ContentCreationException) ex;
 
@@ -102,7 +99,7 @@ public class GlobalExceptionHandler {
 	/** 
 	 * Customize the response for ContentNotAllowedException(404).
 	 * 
-	 */
+	
 	protected ResponseEntity<ApiError> handleContentNotAllowedException(InvalidArgument ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<String> errorMessages = ex.getErrors()
 				.stream()
@@ -111,7 +108,7 @@ public class GlobalExceptionHandler {
 
 		return handleExceptionInternal(ex, new ApiError(errorMessages), headers, status, request);
 	}
-
+ */
 	/** 
 	 * Customize the response for ContentCreationException (201).
 	 * 

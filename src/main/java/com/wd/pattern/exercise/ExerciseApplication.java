@@ -23,8 +23,7 @@ public class ExerciseApplication {
 		SpringApplication.run(ExerciseApplication.class, args);
 		
 		//System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line1"));
-		//System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line2"));
-		
+		//System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line2"));	
 	}
 	
 	@Bean
@@ -34,7 +33,6 @@ public class ExerciseApplication {
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		return objectMapper;
 	}
-
 	
 	@Bean
 	@Primary

@@ -24,15 +24,15 @@ public class PatternRecognitionControllerTest {
 
 //	@Test
 	public void StoreValidPointShouldReturnn() {
-		//		HttpEntity<String> entity = getStringHttpEntity(meterReadings);
+	/*	//		HttpEntity<String> entity = getStringHttpEntity(meterReadings);
 		//	ResponseEntity<String> response = restTemplate.postForEntity("/point", entity, String.class);
 		//	assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-		Point p = new Point("4", "5");
-		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:7777/point", p , String.class);
+	//	Point p = new Point("4", "5");
+		//ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:7777/point", p , String.class);
 		String body = response.getBody();
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
+*/
 	}
 
 	//@Test
