@@ -7,25 +7,25 @@ import org.junit.jupiter.api.Test;
 public class PatternRecognitionServiceTest {
 
 	
-	@Test
+//	@Test
 	public void shouldReturnCreatePointShouldReturnSucessMessage() {
 		Point2D point = null;
 		point.setLocation(0.1, 0.2);
 		
 	}
 
-	@Test
+//	@Test
 	public void DeleteCartesianSpaceShouldReturnError() { 
 		
 	}
 
-	@Test
+//	@Test
 	public void IsValidLineSegmentShouldReturnError() {
 		
 	
 	}
 
-	@Test
+//	@Test
 	public void GetAllSpaceShouldReturnError(){ 
 		
 	}

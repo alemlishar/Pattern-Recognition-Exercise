@@ -22,8 +22,8 @@ public class ExerciseApplication {
 		
 		SpringApplication.run(ExerciseApplication.class, args);
 		
-		System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line1"));
-		System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line2"));
+		//System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line1"));
+		//System.out.println(SingletonDatastore.getInstance().getCartesianDatastore().get("Line2"));
 		
 	}
 	
@@ -35,20 +35,21 @@ public class ExerciseApplication {
 		return objectMapper;
 	}
 
-	/*
+	
 	@Bean
 	@Primary
 	public ConcurrentHashMap<Integer, ArrayList<Point>> initializeDataStore() {
 	
+		SingletonDatastore.getInstance();
 		ArrayList<Point> points = new ArrayList<Point>();
 		
 		points.add(new Point((double)4,(double)5));
 		points.add(new Point((double)5,(double)6));
 		
-		SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);
-		SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);
+		//SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);
+		//SingletonDatastore.getInstance().getCartesianDatastore().put(SingletonDatastore.getInstance().CartesianLineSegmentCounter(), points);
 
 		
-		return  SingletonDatastore.getInstance().getCartesianDatastore();
-	}*/
+		return null;
+	}
 }

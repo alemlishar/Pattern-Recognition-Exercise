@@ -10,20 +10,20 @@ public interface PatterRecognitionService {
 	/**
 	 * creation
 	 */
-	public ConcurrentHashMap<Integer, ArrayList<Point>> CreatePoint(Point point);
+	public int CreatePoint(Point point);
 	public boolean AddpointAsLineSegment(Point point);
 	public boolean addPointInSinglelineSegment(List<Point> pointList);
 	/**
 	 * removal
 	 */
-	public ConcurrentHashMap<String, List<Point>> getAllSpacePoints();
+	public ArrayList<List<String>> getAllSpacePoints();
 	public boolean DeleteCartesianSpacePoints();
 	/**
 	 * read/retrieval
 	 */
-	public ConcurrentHashMap<String, ArrayList<Point>> getLineSegmentsHavingAtleast(int limit);
+	public ArrayList<List<String>> getLineSegmentsHavingAtleast(int limit);
 	
-	public List<Point> getSpecificLineSegment(String LineIdentifier);
+	public ArrayList<List<String>> getSpecificLineSegment(String LineIdentifier);
 	
 	/**
 	 * Validation

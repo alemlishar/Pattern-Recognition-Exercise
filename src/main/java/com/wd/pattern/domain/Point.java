@@ -4,25 +4,19 @@ import javax.validation.constraints.NotNull;
 
 public class Point {
 	
-	@NotNull
 	private double x;
-	@NotNull
-	private double Y;
+	private double Y;	
 
-	
-	
 	public Point() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	
-	public Point(@NotNull double x, @NotNull double y) {
+	public Point( double x, double y) {
 		super();
 		this.x = x;
 		Y = y;
 	}
-
 
 	public double getX() {
 		return x;
@@ -39,8 +33,6 @@ public class Point {
 	public void setY(double y) {
 		Y = y;
 	}
-
-
 	
 }
 

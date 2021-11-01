@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.wd.pattern.domain.Point;
+import com.wd.pattern.exercise.SingletonDatastor1;
 import com.wd.pattern.exercise.SingletonDatastore;
 import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
 
 
 @RestController
 public class PatternRecognitionController {
+	
+	final static Logger logger = LoggerFactory.getLogger(PatternRecognitionController.class);
 
 	@Autowired
 	private PatternRecognitionServiceImpl patternRecognitionServiceImpl;
@@ -33,28 +38,26 @@ public class PatternRecognitionController {
 	 * @return Success message
 	 * 
 	 */
-	@RequestMapping("/point")
+	@PostMapping("/point")
 	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) {
-
 		/**	
 		 *  patternRecognitionServiceImpl.Validation(Point); return true or false  
-		 */
-		System.out.println("x" + point.getX() + "y" + point.getY());
-		boolean val = patternRecognitionServiceImpl.AddpointAsLineSegment(point);
-		return val != true? ResponseEntity.ok("success" + SingletonDatastore.GetCartesianLineSegmentCounter()) : 
-			ResponseEntity.ok("");
+		 */		
+		//System.out.println("x" + point.getX() + "y" + point.getY());
+		SingletonDatastor1.getInstance();		
+		int val = patternRecognitionServiceImpl.CreatePoint(point);
+		logger.info("line segment number" + SingletonDatastor1.getCartesianDatastore().size());
+		return	 ResponseEntity.ok("success" + val);
 	}
-
 	/**
 	 * @apiNote get all points on the cartesian plane
 	 * @return 	return all data-store line segment
 	 * 
 	 */
 	@GetMapping("/space")
-	public ResponseEntity<ConcurrentHashMap<String, List<Point>>> GetCartesianSpacePoints() {
+	public ResponseEntity<ArrayList<List<String>>> GetCartesianSpacePoints() {
 		return ResponseEntity.ok(patternRecognitionServiceImpl.getAllSpacePoints());
 	}
-
 	/**
 	 * @apiNote clear points on the Cartesian plane, 
 	 * @return ResponseEntity, (true/false) success message
@@ -65,17 +68,15 @@ public class PatternRecognitionController {
 		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : 
 			ResponseEntity.ok("Space point not deleted");
 	}
-
-
 	/**  
 	 * @param number of points which a Line holds
 	 * @return number of Line on the cartesian plane which holds at least n points
 	 */
-	@RequestMapping(path="/lines/{n}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(path="/lines/{n}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ConcurrentHashMap<String, ArrayList<Point>>> GetCartesianLineSegments( @PathVariable Integer n) {
 
 		ConcurrentHashMap<String, ArrayList<Point>> lineSegments = new ConcurrentHashMap<String, ArrayList<Point>>() ;
 		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(n);
 		return ResponseEntity.ok(lineSegments);
-	}
+	}*/
 }
