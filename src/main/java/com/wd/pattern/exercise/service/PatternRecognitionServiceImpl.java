@@ -158,9 +158,8 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 */
 	private boolean VerifySlopeAndInsert(Point pointToAdd,List<String> line ) throws ArithmeticException, PatternSyntaxException
 	{ 
-		double result1, result2, result3;
 		double pointx1,pointy1,pointx2,pointy2, pointNewX,PointNewY;
-
+		boolean computationResult = false;
 		try {
 			String[] point1 = line.get(0).split(",");
 			String[] point2 = line.get(1).split(",");
@@ -178,25 +177,42 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 			pointy2 = Double.parseDouble(y2Val[1]);
 			pointNewX = Double.parseDouble(pointToAdd.getX());
 			PointNewY = Double.parseDouble(pointToAdd.getY());
+			computationResult = computePointsSlopeCalculation(pointx1, pointy1, pointx2, pointy2, pointNewX, PointNewY);
 
-			//Result1 = 
 		}catch(ArithmeticException e1) {
 			throw new ArithmeticException();
 		}
 		catch (PatternSyntaxException e1) {
 			throw new ArithmeticException();
 		}
-
-		//result1 = 
-		//result2 = 
-
-		return true;
+		return computationResult;
 	}
+
+
+	private boolean computePointsSlopeCalculation(double p1x, double p1y,double p2x, double p2y, double pNewx, double pNewy){
+
+		double result1, result2, result3, result4;
+
+		result1 = (p2y - pNewy)/(p2x-pNewx);
+		result2 = (p1y - pNewy)/(p1x-pNewx);
+		result3 = (pNewy - p1y )/(pNewx - p1x);
+		result4  = (pNewy - p2y )/(pNewx - p2x);
+
+		if(	Double.compare(result3, result4) == 0 &&  
+				Double.compare(result1, result2) == 0 &&
+				Double.compare(result1, result4) == 0 &&
+				Double.compare(result2, result3) == 0)
+
+			return true;
+		else 
+			return false;	
+	}
+
 	/**
 	 * Insert the new point (create a new line node or segment) can be the very first point for the space or
 	 * in case of the point cant produce the same slope reside in every of the Line segment Space point datastore
 	 */
-	void InsertPointInNewLineSegment(Point point, int lineIndex){
+	private void InsertPointInNewLineSegment(Point point, int lineIndex){
 		ArrayList<List<String>> points = new ArrayList<List<String>>();
 		StringBuilder finalString = new StringBuilder();
 		List<String> p1 = new ArrayList<String>();
