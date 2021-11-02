@@ -23,7 +23,7 @@ public class ExerciseApplication {
 		SpringApplication.run(ExerciseApplication.class, args);
 		SingletonDatastor1.getInstance();
 		
-		List<String> str1 = new ArrayList<String>();
+	/*	List<String> str1 = new ArrayList<String>();
 		List<String> str2 = new ArrayList<String>();
 		List<String> str3 = new ArrayList<String>();
 		
@@ -41,7 +41,7 @@ public class ExerciseApplication {
 		SingletonDatastor1.getCartesianDatastore().get(0).add("d");
 		SingletonDatastor1.getCartesianDatastore().add(str2);
 		SingletonDatastor1.getCartesianDatastore().add(str3);
-		
+		*/
 		//cartesianSpace.add(str1);
 		//cartesianSpace.get(0).add("hello");
 		//cartesianSpace.get(0)

@@ -1,9 +1,7 @@
 package com.wd.pattern.exercise.controller;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,14 +57,14 @@ public class PatternRecognitionController {
 	public ResponseEntity<String> RemoveCartesianSpacePoints() {
 
 		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : 
-			ResponseEntity.ok("Space point not deleted");
+			ResponseEntity.ok("Space points not deleted");
 	}
 	/**  
 	 * @param number of points which a Line holds
 	 * @return number of Line on the cartesian plane which holds at least n points
 	 */
 	@GetMapping(path="/lines/{n}")
-	public ResponseEntity<ArrayList<String>> GetCartesianLineSegments(@PathVariable String n) {
+	public ResponseEntity<ArrayList<String>> GetCartesianLineSegments(@Valid @PathVariable String n) {
 		ArrayList<String> lineSegments = new ArrayList<String>();
 		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(Integer.parseInt(n));
 		return lineSegments.size() > 0? ResponseEntity.ok(lineSegments):ResponseEntity.ok(lineSegments);
