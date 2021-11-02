@@ -45,6 +45,9 @@ and other jdk exceptions
 for detaile documentation the program has welly documentation on the internal Java api and if necessary on the lines
 # 5: Dockerizing
  to execute as a docker image you can execute the following series command, i created Dockerfile inside the project
+     
      - java -jar ./target/Pattern-Recognition-Exercise-0.0.1.jar  
+
      - docker build -t Pattern-Recognition-Test .
+     
      - docker run -it -p 8080:8080 pattern-recognition-test
