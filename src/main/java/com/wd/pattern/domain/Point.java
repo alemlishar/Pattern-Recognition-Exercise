@@ -1,14 +1,12 @@
 package com.wd.pattern.domain;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 
 public class Point {
 	
-	
+	@NotEmpty
 	private String x;
+	@NotEmpty
 	private String Y;	
 
 	public Point() {

@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,15 +33,12 @@ public class PatternRecognitionController {
 	 * 
 	 */
 	@PostMapping("/point")
-	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) throws org.springframework.http.converter.HttpMessageNotReadableException{
-		/**	
-		 *  patternRecognitionServiceImpl.Validation(Point); return true or false  
-		 */		
-		//SingletonDatastor1.getInstance();
-		int val = patternRecognitionServiceImpl.CreatePoint(point);
-		return	 ResponseEntity.ok("success" + val);
+	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) throws MethodArgumentNotValidException
+	{		
+		patternRecognitionServiceImpl.CreatePoint(point);
+		return	ResponseEntity.ok("Message: successfully created The Point");
 	}
-	
+
 	/**
 	 * @apiNote get all points on the cartesian plane
 	 * @return 	return all data-store line segment
@@ -49,6 +48,7 @@ public class PatternRecognitionController {
 	public ResponseEntity<ArrayList<List<String>>> GetCartesianSpacePoints() {
 		return ResponseEntity.ok(patternRecognitionServiceImpl.getAllSpacePoints());
 	}
+
 	/**
 	 * @apiNote clear points on the Cartesian plane, 
 	 * @return ResponseEntity, (true/false) success message
@@ -59,6 +59,7 @@ public class PatternRecognitionController {
 		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : 
 			ResponseEntity.ok("Space points not deleted");
 	}
+
 	/**  
 	 * @param number of points which a Line holds
 	 * @return number of Line on the cartesian plane which holds at least n points
@@ -68,6 +69,6 @@ public class PatternRecognitionController {
 		ArrayList<String> lineSegments = new ArrayList<String>();
 		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(Integer.parseInt(n));
 		return lineSegments.size() > 0? ResponseEntity.ok(lineSegments):ResponseEntity.ok(lineSegments);
-		
+
 	}
 }

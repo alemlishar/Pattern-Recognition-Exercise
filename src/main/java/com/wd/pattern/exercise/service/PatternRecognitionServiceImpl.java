@@ -40,11 +40,9 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	public ArrayList<String> getLineSegmentsHavingAtleast(int limit) {
 		ArrayList<String> linesMorethanGivenPoint = new ArrayList<String>();
 		List<String> pointsInLine = new ArrayList<>();
-
 		/**
 		 * Line must have at least 2 point, to be considered, logger.info("points limit = " + pointsInLine);
 		 */
-
 		if(limit <= 0 )
 			linesMorethanGivenPoint.add("Invalid Input");
 
@@ -60,16 +58,14 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return linesMorethanGivenPoint;
 	}
 	/**
-	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
-	 * @param New Point with cordinates x and y
-	 * @return success response True or False
-	 * @complexity O(K) < O(n)    k constants, n number of points
-	 * @ to be improved
+	 * 
+	 * 
 	 */
 	@Override
 	public boolean AddpointAsLineSegment(Point point) {
 		// TODO Auto-generated method stub
-		CreatePoint(point);
+		//CreatePoint(point);
+		logger.info("point cordinates" + point.getX() + point.getY());
 		return SingletonDatastor1.getCartesianDatastore().size() > 0;
 	}
 
@@ -91,7 +87,8 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	}
 
 	/**
-	 * to be improved
+	 *	@apiNote a new point in to a Cartesian plane
+	 *	@param Point with coordinate x, y between 
 	 */
 	@Override
 	public int CreatePoint(Point point) {
@@ -143,12 +140,13 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 				if(valueToadd)
 					return counter;
 				else {
+					/**
+					 * insert point in new Line As the first point
+					 */
 					InsertPointInNewLineSegment(newPoint, counter);
 				}
 			}
-			/**
-			 * insert point in new Line As the first point
-			 */
+
 		}
 		return SingletonDatastor1.getCartesianDatastore().size();
 	}
@@ -160,8 +158,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 */
 	private boolean VerifySlopeAndInsert(Point pointToAdd,List<String> line ) throws ArithmeticException, PatternSyntaxException
 	{ 
-
-		double result1, result2;
+		double result1, result2, result3;
 		double pointx1,pointy1,pointx2,pointy2, pointNewX,PointNewY;
 
 		try {
@@ -181,6 +178,8 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 			pointy2 = Double.parseDouble(y2Val[1]);
 			pointNewX = Double.parseDouble(pointToAdd.getX());
 			PointNewY = Double.parseDouble(pointToAdd.getY());
+
+			//Result1 = 
 		}catch(ArithmeticException e1) {
 			throw new ArithmeticException();
 		}
@@ -190,12 +189,12 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 
 		//result1 = 
 		//result2 = 
-		
+
 		return true;
 	}
 	/**
-	 * Insert the new point (create a new line node or segment) can be the very first point or
-	 * in case of the line can not reside in every of the Line segment resides on Space point datastore
+	 * Insert the new point (create a new line node or segment) can be the very first point for the space or
+	 * in case of the point cant produce the same slope reside in every of the Line segment Space point datastore
 	 */
 	void InsertPointInNewLineSegment(Point point, int lineIndex){
 		ArrayList<List<String>> points = new ArrayList<List<String>>();
