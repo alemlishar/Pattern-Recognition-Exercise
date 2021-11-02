@@ -10,16 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.wd.pattern.domain.Point;
 import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
 
-
 @RestController
 public class PatternRecognitionController {
-	
+
 	final static Logger logger = LoggerFactory.getLogger(PatternRecognitionController.class);
 
 	@Autowired
@@ -37,12 +37,11 @@ public class PatternRecognitionController {
 		/**	
 		 *  patternRecognitionServiceImpl.Validation(Point); return true or false  
 		 */		
-		
 		//SingletonDatastor1.getInstance();
-		
 		int val = patternRecognitionServiceImpl.CreatePoint(point);
 		return	 ResponseEntity.ok("success" + val);
 	}
+	
 	/**
 	 * @apiNote get all points on the cartesian plane
 	 * @return 	return all data-store line segment
@@ -66,11 +65,11 @@ public class PatternRecognitionController {
 	 * @param number of points which a Line holds
 	 * @return number of Line on the cartesian plane which holds at least n points
 	 */
-	/*@RequestMapping(path="/lines/{n}", method= RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ConcurrentHashMap<String, ArrayList<Point>>> GetCartesianLineSegments( @PathVariable Integer n) {
-
-		ConcurrentHashMap<String, ArrayList<Point>> lineSegments = new ConcurrentHashMap<String, ArrayList<Point>>() ;
-		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(n);
-		return ResponseEntity.ok(lineSegments);
-	}*/
+	@GetMapping(path="/lines/{n}")
+	public ResponseEntity<ArrayList<String>> GetCartesianLineSegments(@PathVariable String n) {
+		ArrayList<String> lineSegments = new ArrayList<String>();
+		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(Integer.parseInt(n));
+		return lineSegments.size() > 0? ResponseEntity.ok(lineSegments):ResponseEntity.ok(lineSegments);
+		
+	}
 }

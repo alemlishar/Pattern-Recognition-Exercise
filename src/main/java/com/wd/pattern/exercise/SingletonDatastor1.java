@@ -21,7 +21,11 @@ public class SingletonDatastor1 {
 	public static SingletonDatastor1 getInstance() {
 
 		if(SingletonDatastor1 == null)
-			SingletonDatastor1 = new SingletonDatastor1();
+		synchronized (SingletonDatastor1.class) {
+			if(SingletonDatastor1 == null)
+				SingletonDatastor1 = new SingletonDatastor1();
+		}
+
 		return SingletonDatastor1;
 	}
 
@@ -50,7 +54,7 @@ public class SingletonDatastor1 {
 	}
 
 	public static void storeNewLineToDataStore(List<String> linesPoint) {
-		
+
 		logger.info("the value to be added in data store" + linesPoint.get(0));
 		getCartesianDatastore().add(linesPoint);
 		logger.info("data store" + getCartesianDatastore().get(0).toString());

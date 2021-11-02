@@ -2,7 +2,6 @@ package com.wd.pattern.exercise.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.wd.pattern.domain.Point;
 
@@ -12,7 +11,6 @@ public interface PatterRecognitionService {
 	 */
 	public int CreatePoint(Point point);
 	public boolean AddpointAsLineSegment(Point point);
-	public boolean addPointInSinglelineSegment(List<Point> pointList);
 	/**
 	 * removal
 	 */
@@ -21,9 +19,7 @@ public interface PatterRecognitionService {
 	/**
 	 * read/retrieval
 	 */
-	public ArrayList<List<String>> getLineSegmentsHavingAtleast(int limit);
-	
-	public ArrayList<List<String>> getSpecificLineSegment(String LineIdentifier);
+	public ArrayList<String> getLineSegmentsHavingAtleast(int limit);
 	
 	/**
 	 * Validation

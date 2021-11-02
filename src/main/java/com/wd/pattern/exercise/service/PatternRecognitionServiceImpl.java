@@ -2,6 +2,7 @@ package com.wd.pattern.exercise.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,28 +36,27 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @return get all LineSegmentIdentifier  
 	 */
 	@Override
-	public ArrayList<List<String>> getLineSegmentsHavingAtleast(int limit) {
+	public ArrayList<String> getLineSegmentsHavingAtleast(int limit) {
+		ArrayList<String> linesMorethanGivenPoint = new ArrayList<String>();
+		List<String> pointsInLine = new ArrayList<>();
+		/**
+		 * Line must have at least 2 point, to be considered, logger.info("points limit = " + pointsInLine);
+		 */
 
-		ArrayList<List<String>> selectedLineSegments = new ArrayList<List<String>>() ;
-		for(int i = 1; i<SingletonDatastor1.GetCartesianLineSegmentCounter(); i++) {
-			if(SingletonDatastor1.getCartesianDatastore().get(i).size() > limit)				
-				selectedLineSegments.add(SingletonDatastor1.getCartesianDatastore().get(i));
+		if(limit >= 2 ) {
+			for(int counter=0; counter < SingletonDatastor1.getCartesianDatastore().size(); counter++) {
+				pointsInLine = SingletonDatastor1.getCartesianDatastore().get(counter);
+				if(pointsInLine.size() >= limit) 
+					linesMorethanGivenPoint.add("line: " + counter + pointsInLine.toString());
+			}
 		}
-		return selectedLineSegments;
-	}
+		else if(limit <= 0 )
+			linesMorethanGivenPoint.add("Invalid Input");
 
-	/**
-	 * @apiNote	Create New point in Data storage
-	 * @param Point with cordinates x and y
-	 * @return datastorage as key value LineSegmentIdentifier, List of Points  
-	 */
-	@Override
-	public ArrayList<List<String>> getSpecificLineSegment(String LineIdentifier) {
-		// TODO Auto-generated method stub
-		return null;
+		else linesMorethanGivenPoint.add("a line can't have such number of points");
+		return linesMorethanGivenPoint;
 	}
-
-	/**
+		/**
 	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
 	 * @param New Point with cordinates x and y
 	 * @return success response True or False
@@ -78,7 +78,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		{
 			logger.info("--the first point---" );
 			CreatePoint(point);
-			return SingletonDatastor1.getCartesianDatastore().size() ;
+			return SingletonDatastor1.getCartesianDatastore().size();
 		}
 		for(int i = 0; i <=SingletonDatastor1.getCartesianDatastore().size(); i++) 
 		{
@@ -88,16 +88,6 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		}
 		return SingletonDatastor1.getCartesianDatastore().size() ;
 	}
-	/**
-	 * @apiNote	Calculate the slope of the new Point along with every List Of the points in Line segment
-	 * @param New Point List with coordinates x and y
-	 * @return success response True or False
-	 */
-	@Override
-	public boolean addPointInSinglelineSegment(List<Point> pointList) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	/**
 	 * to be improved
@@ -105,39 +95,24 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	@Override
 	public int CreatePoint(Point point) {
 
+		ArrayList<List<String>> points = new ArrayList<List<String>>();
 		StringBuilder finalString = new StringBuilder();
 		finalString.append("X: " + point.getX() + "," +  "Y: " + point.getY());
-		ArrayList<List<String>> points = new ArrayList<List<String>>();
-
 		if(SingletonDatastor1.getCartesianDatastore().size() == 0) {
 			logger.info("the first two point by any means can make a line, no need to make calculation, simply insert");
-			List<String> p1 = new ArrayList<String>();
-			p1.add(finalString.toString());
-			points.add(p1);
-			SingletonDatastor1.storeNewLineToDataStore(p1);
-		}
-		else if(SingletonDatastor1.getCartesianDatastore().size() == 1 ) {
-			logger.info("total line segments 1 points size =" + SingletonDatastor1.getCartesianDatastore().get(1).size() + 
-					"all points" +  SingletonDatastor1.getCartesianDatastore().get(1).toString());
-			SingletonDatastor1.getCartesianDatastore().get(0).add(finalString.toString());
-		}
-		else {
-			/**
-			 * get the index and insert accordingly, 
-			 * boolean slope = VerifyPointsInline(point) if true   
-			 */
-			int lineIndex = computePointToExistInline(point, SingletonDatastor1.getCartesianDatastore());
-			if(lineIndex != 0)
-				SingletonDatastor1.getCartesianDatastore().get(lineIndex).add(finalString.toString());
-			else {
-				SingletonDatastor1.getCartesianDatastore().get(SingletonDatastor1.getCartesianDatastore().size() -1 ).add(finalString.toString());
-			}
-		}
+			Optional<List<String>> spacePoints = Optional.ofNullable(SingletonDatastor1.getCartesianDatastore().get(0));
 
-
+			InsertPointInNewLineSegment(point, 0); 
+			logger.info("");
+		}
+		else if(SingletonDatastor1.getCartesianDatastore().size() == 3) {
+			int valueIndex = computePointToExistInline(point, points);
+			logger.info("line index counter" + valueIndex);
+			SingletonDatastor1.getCartesianDatastore().get(valueIndex).add(finalString.toString());
+			logger.info("point to be added " + SingletonDatastor1.getCartesianDatastore().get(valueIndex));
+		}
 		return SingletonDatastor1.getCartesianDatastore().size();
 	}
-
 	/**
 	 * 
 	 * @apiNote compute the line index
@@ -145,23 +120,63 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @param lineSegments: total spaces 
 	 * @return
 	 */
-	private int computePointToExistInline(Point p1, ArrayList<List<String>> lineSegments) {
+	private int computePointToExistInline(Point newPoint, ArrayList<List<String>> lineSegments) {
 
-		logger.info("----string value to be added--" + p1);
-		logger.info("total line segments" + SingletonDatastor1.getCartesianDatastore().size() + "points in space " );
+		Optional<ArrayList<List<String>>> spacePoints = Optional.ofNullable(lineSegments);
+		for(int counter=0; counter < SingletonDatastor1.getCartesianDatastore().size(); counter++) {
+			Optional<List<String>> pointsInLine = Optional.of(SingletonDatastor1.getCartesianDatastore().get(counter));
+			/**
+			 * if only one point reside , it can make a line insert directly, to the specified line index(counter)
+			 */
+			if(!pointsInLine.isPresent() || pointsInLine.get().size() == 1) {
+				logger.info("line number" + counter + "size of points in linesegment" + pointsInLine.get().size());
+				return counter;
+			}
+			/**
+			 * at least two points exist in the Line
+			 */
+			else if (pointsInLine.isPresent() && pointsInLine.get().size() >= 2) {
+				boolean valueToadd = false;
+				if(valueToadd)
+					//valueToadd = VerifySlopeAndInsert(newPoint,  pointsInLine.get() );
+					return counter;
+				else {
+					InsertPointInNewLineSegment(newPoint, counter);
+				}
+			}
+			/**
+			 * insert point in new Line As the first point
+			 */
 
-		for (int i=1; i<SingletonDatastor1.getCartesianDatastore().size();i++) {
-			System.out.println("points in line " + SingletonDatastor1.getCartesianDatastore().get(i).get(0));
 		}
 		return SingletonDatastor1.getCartesianDatastore().size();	
 	}
 
-	/** use either of this formula
-	 *  ax + by = c
-	 *  ax - by = c
+	private boolean VerifySlopeAndInsert(Point pointToAdd,List<String> line ){
 
-		return	Double.compare((p2.getY() - p1.getY())/(p2.getX() - p1.getX()),
-				(p1.getY() - p2.getY()) / (p1.getX() - p2.getX())) == 0? true:false;
+
+		double result1, result2;
+
+		//	result1 = ((p2.getY() - p1.getY())/(p2.getX() - p1.getX());
+		//result2 = (p1.getY() - p2.getY()) / (p1.getX() - p2.getX());
+
+
+		return true;
+	}
+	/**
+	 * Insert the new point (create a new line node or segment) can be the very first point or
+	 * in case of the line can not reside in every of the Line segment resides on Space point datastore
+	 */
+	void InsertPointInNewLineSegment(Point point, int lineIndex){
+		ArrayList<List<String>> points = new ArrayList<List<String>>();
+		StringBuilder finalString = new StringBuilder();
+		List<String> p1 = new ArrayList<String>();
+		finalString.append("X: " + point.getX() + "," +  "Y: " + point.getY());	
+		p1.add(finalString.toString());
+		points.add(p1);
+
+		SingletonDatastor1.getCartesianDatastore().add(p1);
+		logger.info("line segment " + SingletonDatastor1.getCartesianDatastore().size() + "datas" + SingletonDatastor1.getCartesianDatastore());
 	}
 
 	/**
