@@ -2,6 +2,7 @@ package com.wd.pattern.exercise.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.wd.pattern.domain.Point;
 
@@ -14,7 +15,7 @@ public interface PatterRecognitionService {
 	/**
 	 * removal
 	 */
-	public ArrayList<List<String>> getAllSpacePoints();
+	public ArrayList<Set<String>> getAllSpacePoints();
 	public boolean DeleteCartesianSpacePoints();
 	/**
 	 * read/retrieval

@@ -2,7 +2,10 @@ package com.wd.pattern.exercise;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +14,7 @@ import com.wd.pattern.domain.Point;
 
 public class SingletonDatastor1 {
 
-	static ArrayList<List<String>> CartesianSpacePoints = new ArrayList<List<String>>();
+	static ArrayList<Set<String>> CartesianSpacePoints = new ArrayList<Set<String>>();
 	private static SingletonDatastor1 SingletonDatastor1;
 	static int lineSegmentCounter = 0;
 	final static Logger logger = LoggerFactory.getLogger(SingletonDatastor1.class);
@@ -29,7 +32,7 @@ public class SingletonDatastor1 {
 		return SingletonDatastor1;
 	}
 
-	public static ArrayList<List<String>> getCartesianDatastore() {
+	public static ArrayList<Set<String>> getCartesianDatastore() {
 
 		return CartesianSpacePoints;
 	}
@@ -56,12 +59,12 @@ public class SingletonDatastor1 {
 	public static void storeNewLineToDataStore(List<String> linesPoint) {
 
 		logger.info("the value to be added in data store" + linesPoint.get(0));
-		getCartesianDatastore().add(linesPoint);
+		getCartesianDatastore().add(linesPoint.stream().collect(Collectors.toSet()));
 		logger.info("data store" + getCartesianDatastore().get(0).toString());
 
 	}
 
 	public static void storePointToDataStore(List <String> linesPoint) {
-		getCartesianDatastore().add(linesPoint);
+		getCartesianDatastore().add(linesPoint.stream().collect(Collectors.toSet()));
 	}
 }

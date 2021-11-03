@@ -1,9 +1,13 @@
 package com.wd.pattern.exercise.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +43,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	@Override
 	public ArrayList<String> getLineSegmentsHavingAtleast(int limit) {
 		ArrayList<String> linesMorethanGivenPoint = new ArrayList<String>();
-		List<String> pointsInLine = new ArrayList<>();
+		Set<String> pointsInLine = new TreeSet<String>();
 		/**
 		 * Line must have at least 2 point, to be considered, logger.info("points limit = " + pointsInLine);
 		 */
@@ -49,8 +53,9 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		else if(limit >= 2 ) {
 			for(int counter=0; counter < SingletonDatastor1.getCartesianDatastore().size(); counter++) {
 				pointsInLine = SingletonDatastor1.getCartesianDatastore().get(counter);
-				if(pointsInLine.size() >= limit) 
+				if(pointsInLine.stream().distinct().count() >= limit) {
 					linesMorethanGivenPoint.add("line: " + counter + pointsInLine.toString());
+				}
 			}
 		}
 		else linesMorethanGivenPoint.add("a line can't have such number of points");
@@ -92,7 +97,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 */
 	@Override
 	public int CreatePoint(Point point) {
-
+		List<String> str = new ArrayList<String>();
 		ArrayList<List<String>> points = new ArrayList<List<String>>();
 		StringBuilder finalString = new StringBuilder();
 		finalString.append("X:" + point.getX() + "," +  "Y:" + point.getY());
@@ -100,11 +105,10 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 			logger.info("the first two point by any means can make a line, no need to make calculation, simply insert");
 			//Optional<List<String>> spacePoints = Optional.ofNullable(SingletonDatastor1.getCartesianDatastore().get(0));
 			InsertPointInNewLineSegment(point, 0);
-			logger.info("");
 		}
 		else if(SingletonDatastor1.getCartesianDatastore().size() >= 0) {
 			int valueIndex = computePointToExistInline(point, points);
-			logger.info("line index counter" + valueIndex);
+			logger.info("--- line index ---" + valueIndex);
 			SingletonDatastor1.getCartesianDatastore().get(valueIndex).add(finalString.toString());
 			logger.info("point to be added " + SingletonDatastor1.getCartesianDatastore().get(valueIndex));
 		}
@@ -121,19 +125,19 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	private int computePointToExistInline(Point newPoint, ArrayList<List<String>> lineSegments) {
 
 		for(int counter=0; counter < SingletonDatastor1.getCartesianDatastore().size(); counter++) {
-			Optional<List<String>> pointsInLine = Optional.of(SingletonDatastor1.getCartesianDatastore().get(counter));
+			Optional<Set<String>> pointsInLine = Optional.of(SingletonDatastor1.getCartesianDatastore().get(counter));
 			/**
 			 * if only one point reside , it can make a line insert directly, to the specified line index(counter)
 			 */
 			if(pointsInLine.isPresent() && pointsInLine.get().size() == 1) {
-				logger.info("line number" + counter + "size of points in linesegment" + pointsInLine.get().size());
+				logger.info("line number" + counter + "points number in line" + pointsInLine.get().size());
 				return counter;
 			}
 			/**
 			 * at least two points exist in the Line
 			 */
 			else if (pointsInLine.isPresent() && pointsInLine.get().size() > 1) {
-				logger.info("line number" + counter + "size of points in linesegment" + pointsInLine.get().size());
+				logger.info("line number" + counter + "points number in line" + pointsInLine.get().size());
 
 				boolean valueToadd = false;
 				valueToadd = VerifySlopeAndInsert(newPoint,  pointsInLine.get());
@@ -144,6 +148,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 					 * insert point in new Line As the first point
 					 */
 					InsertPointInNewLineSegment(newPoint, counter);
+					logger.info("line number" + counter + "size of points in linesegment" + pointsInLine.get().size());
 				}
 			}
 
@@ -156,13 +161,14 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * @param line list of points, to represent two points (point1, point2)
 	 * @return  compute if(slope(point1 pointToAdd) == slope(pointToAdd point))  return true; else false; insert else traverse to next line
 	 */
-	private boolean VerifySlopeAndInsert(Point pointToAdd,List<String> line ) throws ArithmeticException, PatternSyntaxException
+	private boolean VerifySlopeAndInsert(Point pointToAdd,Set<String> line ) throws ArithmeticException, PatternSyntaxException
 	{ 
 		double pointx1,pointy1,pointx2,pointy2, pointNewX,PointNewY;
 		boolean computationResult = false;
+		List<String> lines = line.stream().collect(Collectors.toList());
 		try {
-			String[] point1 = line.get(0).split(",");
-			String[] point2 = line.get(1).split(",");
+			String[] point1 = lines.get(0).split(",");
+			String[] point2 = lines.get(1).split(",");
 			String[] x1Val = point1[0].split(":");
 			String[] y1Val = point1[1].split(":");
 			String[] x2Val = point2[0].split(":");
@@ -204,8 +210,8 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 				Double.compare(result2, result3) == 0)
 
 			return true;
-		else 
-			return false;	
+		else
+			return false;
 	}
 
 	/**
@@ -221,7 +227,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		p1.add(finalString.toString());
 		points.add(p1);
 
-		SingletonDatastor1.getCartesianDatastore().add(p1);
+		SingletonDatastor1.getCartesianDatastore().add(p1.stream().collect(Collectors.toSet()));
 		logger.info("line segment " + SingletonDatastor1.getCartesianDatastore().size() + "datas" + SingletonDatastor1.getCartesianDatastore());
 	}
 
@@ -229,7 +235,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 	 * to be improved
 	 */
 	@Override
-	public ArrayList<List<String>> getAllSpacePoints() {
+	public ArrayList<Set<String>> getAllSpacePoints() {
 		// TODO Auto-generated method stub
 
 		return SingletonDatastor1.getInstance().getCartesianDatastore();

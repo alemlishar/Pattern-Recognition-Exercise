@@ -1,6 +1,6 @@
 package com.wd.pattern.exercise.controller;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.wd.pattern.domain.Point;
 import com.wd.pattern.exercise.service.PatternRecognitionServiceImpl;
+
 
 @RestController
 public class PatternRecognitionController {
@@ -35,7 +36,7 @@ public class PatternRecognitionController {
 	public ResponseEntity<String> AddCartesianSpacePoint(@Valid @RequestBody Point point) throws MethodArgumentNotValidException
 	{		
 		patternRecognitionServiceImpl.CreatePoint(point);
-		return	ResponseEntity.ok("Message: successfully created The Point");
+		return	ResponseEntity.ok("Message: Point created");
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class PatternRecognitionController {
 	 * 
 	 */
 	@GetMapping("/space")
-	public ResponseEntity<ArrayList<List<String>>> GetCartesianSpacePoints() {
+	public ResponseEntity<ArrayList<Set<String>>> GetCartesianSpacePoints() {
 		return ResponseEntity.ok(patternRecognitionServiceImpl.getAllSpacePoints());
 	}
 
@@ -55,8 +56,8 @@ public class PatternRecognitionController {
 	@DeleteMapping("/space")
 	public ResponseEntity<String> RemoveCartesianSpacePoints() {
 
-		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("Successfully deleted") : 
-			ResponseEntity.ok("Space points not deleted");
+		return patternRecognitionServiceImpl.DeleteCartesianSpacePoints()? ResponseEntity.ok("message: Successfully deleted") : 
+			ResponseEntity.ok("message: Space points not deleted");
 	}
 
 	/**  
@@ -68,6 +69,5 @@ public class PatternRecognitionController {
 		ArrayList<String> lineSegments = new ArrayList<String>();
 		lineSegments = patternRecognitionServiceImpl.getLineSegmentsHavingAtleast(Integer.parseInt(n));
 		return lineSegments.size() > 0? ResponseEntity.ok(lineSegments):ResponseEntity.ok(lineSegments);
-
 	}
 }
