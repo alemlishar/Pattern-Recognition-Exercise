@@ -26,28 +26,16 @@ public class GlobalExceptionHandler {
 	 * Provides handling for exceptions throughout this service. 
 	 * 
 	 */
-	@ExceptionHandler({ ContentNotFoundException.class, InvalidArgument.class , ContentCreationException.class, HttpMessageNotReadableException.class,
-		
-	})
+	@ExceptionHandler({ HttpMessageNotReadableException.class})
 	public final ResponseEntity<ApiError> handleException(Exception ex, WebRequest request) {
 		HttpHeaders headers = new HttpHeaders();
 
-		if (ex instanceof ContentNotFoundException) {
-			HttpStatus status = HttpStatus.NOT_FOUND;
-			ContentNotFoundException unfe = (ContentNotFoundException) ex;
-
-			return handleUserNotFoundException(unfe, headers, status, request);
-		} /*else if (ex instanceof InvalidArgument) {
+		 /*else if (ex instanceof InvalidArgument) {
 			HttpStatus status = HttpStatus.BAD_REQUEST;
 			InvalidArgument cnae = (InvalidArgument) ex;
 
 			return handleContentNotAllowedException(cnae, headers, status, request);
-		} */else if (ex instanceof ContentCreationException) {
-			HttpStatus status = HttpStatus.OK;
-			ContentCreationException cnae = (ContentCreationException) ex;
-
-			return handleContentCreationException(cnae, headers, status, request);
-		}else if(ex instanceof HttpMessageNotReadableException) {
+		} */ if(ex instanceof HttpMessageNotReadableException) {
 
 			HttpStatus status = HttpStatus.BAD_REQUEST;
 			HttpMessageNotReadableException cnae = (HttpMessageNotReadableException) ex;
@@ -91,10 +79,7 @@ public class GlobalExceptionHandler {
 	 * 
 	 * Customize the response for UserNotFoundException. 
 	 */
-	protected ResponseEntity<ApiError> handleUserNotFoundException(ContentNotFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		List<String> errors = Collections.singletonList(ex.getMessage());
-		return handleExceptionInternal(ex, new ApiError(errors), headers, status, request);
-	}
+	
 
 	/** 
 	 * Customize the response for ContentNotAllowedException(404).
@@ -109,18 +94,7 @@ public class GlobalExceptionHandler {
 		return handleExceptionInternal(ex, new ApiError(errorMessages), headers, status, request);
 	}
  */
-	/** 
-	 * Customize the response for ContentCreationException (201).
-	 * 
-	 */
-	protected ResponseEntity<ApiError> handleContentCreationException(ContentCreationException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		List<String> errorMessages = ex.getErrors()
-				.stream()
-				.map(contentError -> contentError.getObjectName() + " " + contentError.getDefaultMessage())
-				.collect(Collectors.toList());
 
-		return handleExceptionInternal(ex, new ApiError(errorMessages), headers, status, request);
-	}
 
 	/**
 	 *  

@@ -1,14 +1,12 @@
 package com.wd.pattern.exercise.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -85,7 +83,7 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		for(int i = 0; i <=SingletonDatastor1.getCartesianDatastore().size(); i++) 
 		{
 			int pointsValue = SingletonDatastor1.getCartesianDatastore().get(i).size();
-			logger.info("--the value index---" + SingletonDatastor1.getCartesianDatastore().get(i).get(pointsValue-1));
+			//logger.info("--the value index---" + SingletonDatastor1.getCartesianDatastore().get(i).get(pointsValue-1));
 			CreatePoint(point);
 		}
 		return SingletonDatastor1.getCartesianDatastore().size() ;
@@ -241,10 +239,5 @@ public class PatternRecognitionServiceImpl implements PatterRecognitionService{
 		return SingletonDatastor1.getInstance().getCartesianDatastore();
 	}
 
-	@Override
-	public boolean Validation(Object obj) {
-		// TODO Auto-generated method stub
 
-		return false;
-	}
 }

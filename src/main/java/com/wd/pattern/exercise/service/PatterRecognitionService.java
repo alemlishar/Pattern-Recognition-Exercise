@@ -25,6 +25,5 @@ public interface PatterRecognitionService {
 	/**
 	 * Validation
 	 */
-	public boolean Validation(Object obj);
 	public int CheckpointInExistingLine(Point point);
 }
