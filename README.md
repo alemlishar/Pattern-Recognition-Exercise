@@ -4,17 +4,18 @@ Springboot, jdk 1.8, maven
 
 # 2. Problem Solving Rough Overview
 
+Rules on Line creation
 Lines must have atleast 2 points
 to have more than two points this program  calculate the slope in between 3 points and add the new point as a new 
-line segment or in other words create a new point.
+line segment or in other words create a new point on the datastorage space.
 
 Memory
 prepare two the same type of datastore, using Singleton creation design pattern
-1, Real Implmentation uses this ArrayList<List<String>>
-2, for better performance the program proposed Concurenthashmap<String, List<String>> to efficiently manage concurent threads calling
+1, Real Implmentation uses this ArrayList<Set<String>>
+2, for better performance the program proposed Concurenthashmap<String, List<String>> to efficiently manage concurent threads execution, other mechanism can be proposed
 
 ## POST point
-new point creation or Line segment expannsion by adding new point starts in time of the first method execution
+new point creation or Line segment expannsion by adding new point starts in time of the first Post method execution
 creatrion of new ine segment with incremental Index, or updating existing line segment with new entry point manipulated in the datastore
 
 ## GET Point
@@ -28,21 +29,22 @@ this reduces the complexity of searching, its needed to search a lines
 
 
 # 3: Complexity
-space: can uses for n number of at least n/2 record/space usage , since atleast every 2 points must create a line 
-Insertion and searching a given point require the same complexity O(K) k is constants
+space:  uses for n number of point inputs at least n/2 record/space usage, since atleast every 2 points must create a line 
+Insertion and searching a given point require the same complexity O(K) which is < O(n/2) best case worst case = O(n/2)=O(n) is K constants, n number of points
 
-all operation performed in JVM in memeory 
+all operation performed JVM memeory 
 
 
 #  4: Exception
 
-the program manage errored input or faulty Json binding, incorrect input
+the program manage errored input or improper Json binding also incorrect input
 MethodArgumentNotValidException
 HttpMessageNotReadableException
 
-and other jdk exceptions
+additionall other jdk exceptions too
 
-for detaile documentation the program has welly documentation on the internal Java api and if necessary on the lines
+for detail documentation the program documented well on respective Java api, on block of codes too
+                                                                                        
 # 5: Dockerizing
  to execute as a docker image you can execute the following series command, i created Dockerfile inside the project
      
